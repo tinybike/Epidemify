@@ -301,7 +301,8 @@ for url in urls:
 	
 	# Delete duplicate links
 	print '\tRemoving duplicate links...'
-	sql = ('CREATE TEMPORARY TABLE rss_temp (id INT);'
+	sql = ('CREATE TEMPORARY TABLE IF NOT EXISTS rss_temp (id INT);'
+		   'DELETE FROM rss_temp;'
 		   'INSERT rss_temp (id) '
 		   'SELECT id FROM rss_data r WHERE EXISTS ('
 		   'SELECT * FROM rss_data r2 '
