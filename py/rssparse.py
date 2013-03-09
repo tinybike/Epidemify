@@ -301,7 +301,7 @@ for url in urls:
 		cur.execute(sql)
 	
 # Delete duplicate links
-print '\tRemoving duplicate links...'
+print 'Removing duplicate links...'
 cur.execute('CREATE TEMPORARY TABLE IF NOT EXISTS rss_temp (id INT);')
 cur.execute('DELETE FROM rss_temp;')
 sql = ('INSERT rss_temp (id) '
@@ -311,7 +311,7 @@ sql = ('INSERT rss_temp (id) '
 cur.execute(sql)
 cur.execute('DELETE FROM rss_data WHERE id IN (SELECT id FROM rss_temp);')
 cur.execute('DROP TABLE rss_temp;')
-print '\t' + str(cur.rowcount) + ' duplicates removed.'
+print str(cur.rowcount) + ' duplicates removed.'
 	
 cur.close()
 db.close()
