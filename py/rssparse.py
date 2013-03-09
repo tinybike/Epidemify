@@ -288,7 +288,11 @@ for url in urls:
 			html = br.open(e.link).read()
 			sqldict['text'] = db.escape_string(nltk.clean_html(html))
 		except KeyboardInterrupt:
-			raise
+			quitprompt = raw_input('Quit? [y/N]')
+			if quitprompt == 'y' or quitprompt == 'Y':
+				raise
+			else:
+				continue
 		except:
 			sqldict['text'] = 'NULL'
 
