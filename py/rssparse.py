@@ -302,7 +302,7 @@ for url in urls:
 	
 # Delete duplicate links
 print 'Removing duplicate links...'
-cur.execute('CREATE TEMPORARY TABLE IF NOT EXISTS rss_temp (id INT);')
+cur.execute('CREATE TEMPORARY TABLE IF NOT EXISTS rss_temp (id INT UNSIGNED);')
 cur.execute('DELETE FROM rss_temp;')
 sql = ('INSERT rss_temp (id) '
 	   'SELECT id FROM rss_data r WHERE EXISTS ('
