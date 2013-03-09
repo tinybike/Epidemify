@@ -312,6 +312,6 @@ cur.execute(sql)
 cur.execute('DELETE FROM rss_data WHERE id IN (SELECT id FROM rss_temp);')
 cur.execute('DROP TABLE rss_temp;')
 print str(cur.rowcount) + ' duplicates removed.'
-	
+
 cur.close()
 db.close()
