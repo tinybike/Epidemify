@@ -33,11 +33,13 @@ sql = [('CREATE TABLE IF NOT EXISTS users ('
 	'PRIMARY KEY(sick_id)'
 	') ENGINE=InnoDB;'),
 	('CREATE TABLE IF NOT EXISTS rss_data ('
+	'id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,'
 	'link TEXT,'
 	'title TEXT,'
 	'summary TEXT,'
 	'updated DATETIME,'
-	'article TEXT'
+	'article TEXT,'
+	'PRIMARY KEY(id)'
 	') ENGINE=InnoDB;')]
 	
 for query in sql:
