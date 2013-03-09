@@ -3,7 +3,7 @@ include_once('model/Model.php');
 
 class Controller {
 	private $model;
-	private $navbar;
+	private $page;
 	
 	public function __construct() {
 		$this->model = new Model();
@@ -31,24 +31,27 @@ class Controller {
 				break;	
 
 			// Social network
-			case 'network':
-				// Search for new friends
-				if (isset($_POST['findlinks'])) {
-					$findlinks = $this->model->findlinks($_POST['findlinks']);
-					include 'view/findlinks.php';
-				}
-				// Make new friend
-				elseif (isset($_POST['addlink'])) {
-					$addlink = $this->model->addlink($_SESSION['username'], $_POST['addlink']);
-					include 'view/addlink.php';
-				}
-				// Fetch list of friends
-				else {
-					$links = $this->model->getlinks();
-					include 'view/network.php';
+			case 'network':			
+				$subpage = (isset($_GET['sub'])) ? $_GET['sub'] : 'default';
+				switch ($subpage) {
+					// Search for new friends
+					case 'search':
+						$findlinks = $this->model->findlinks($_POST['findlinks']);
+						include 'view/findlinks.php';
+						break;
+					// Make new friend
+					case 'add':
+						$addlink = $this->model->addlink($_SESSION['username'], $_POST['addlink']);
+						include 'view/addlink.php';
+						break;
+					// Fetch list of friends
+					default:
+						$links = $this->model->getlinks();
+						include 'view/network.php';
 				}
 				break;
-
+			
+			// Edit your profile
 			case 'profile':
 				if ($_POST['update_profile']) {
 					$update_profile = $this->model->update_profile();
