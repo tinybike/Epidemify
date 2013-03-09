@@ -314,8 +314,8 @@ sql = ('INSERT rss_temp (id) '
 	   'WHERE r2.link = r.link AND r2.updated > r.updated);')
 cur.execute(sql)
 cur.execute('DELETE FROM rss_data WHERE id IN (SELECT id FROM rss_temp);')
-cur.execute('DROP TABLE rss_temp;')
 print str(cur.rowcount) + ' duplicates removed.'
+cur.execute('DROP TABLE rss_temp;')
 
 cur.close()
 db.close()
