@@ -10,15 +10,6 @@ import feedparser
 import nltk
 from mechanize import Browser
 
-db = MySQLdb.connect(host='localhost', user='epidemician', \
-					passwd='funcrusherplus', db='Epidemify')
-cursor = db.cursor()
-
-# Create an "IE6" browser
-br = Browser()
-br.set_handle_robots(False)
-br.addheaders = [('User-Agent', 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)')]
-
 # RSS URL list
 urls = ['http://www.fark.com/fark.rss', \
 		'http://rss.cnn.com/rss/cnn_world.rss', \
@@ -250,8 +241,19 @@ urls = ['http://www.fark.com/fark.rss', \
 		'http://feeds.reuters.com/reuters/topNews', \
 		'http://feeds.reuters.com/Reuters/domesticNews', \
 		'http://feeds.reuters.com/Reuters/worldNews']
-
 N = len(urls)
+
+# Connect to MySQL database "Epidemify"
+db = MySQLdb.connect(host='localhost', user='epidemician', \
+					passwd='funcrusherplus', db='Epidemify')
+cur = db.cursor()
+cur.connection.autocommit(True)
+
+# Create an "IE6" browser
+br = Browser()
+br.set_handle_robots(False)
+br.addheaders = [('User-Agent', 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)')]
+
 fields = ['link', 'title', 'summary', 'updated_parsed']
 counter = 0
 print 'Parsing ' + str(N) + ' RSS feeds...'
@@ -296,22 +298,20 @@ for url in urls:
 			   'VALUES ('
 			   '"%(link)s", "%(title)s", "%(summary)s", "%(updated)s", '
 			   '"%(text)s");' % sqldict).replace('"NULL"', 'NULL')
-		cursor.execute(sql)
-		db.commit()
+		cur.execute(sql)
 	
-	# Delete duplicate links
-	print '\tRemoving duplicate links...'
-	sql = ('CREATE TEMPORARY TABLE IF NOT EXISTS rss_temp (id INT);'
-		   'DELETE FROM rss_temp;'
-		   'INSERT rss_temp (id) '
-		   'SELECT id FROM rss_data r WHERE EXISTS ('
-		   'SELECT * FROM rss_data r2 '
-		   'WHERE r2.link = r.link AND r2.updated > r.updated);'
-		   'DELETE FROM rss_data WHERE id IN (SELECT id FROM rss_temp);'
-		   'DROP TABLE rss_temp;')
-	cursor.execute(sql)
-	print '\t' + str(cursor.rowcount) + ' duplicates removed.'
-	db.commit()
+# Delete duplicate links
+print '\tRemoving duplicate links...'
+cur.execute('CREATE TEMPORARY TABLE IF NOT EXISTS rss_temp (id INT);')
+cur.execute('DELETE FROM rss_temp;')
+sql = ('INSERT rss_temp (id) '
+	   'SELECT id FROM rss_data r WHERE EXISTS ('
+	   'SELECT * FROM rss_data r2 '
+	   'WHERE r2.link = r.link AND r2.updated > r.updated);')
+cur.execute(sql)
+cur.execute('DELETE FROM rss_data WHERE id IN (SELECT id FROM rss_temp);')
+cur.execute('DROP TABLE rss_temp;')
+print '\t' + str(cur.rowcount) + ' duplicates removed.'
 	
-cursor.close()
+cur.close()
 db.close()
