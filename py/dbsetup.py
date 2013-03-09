@@ -31,11 +31,18 @@ sql = [('CREATE TABLE IF NOT EXISTS users ('
 	'sickname TEXT,'
 	'sicktime DATETIME,'
 	'PRIMARY KEY(sick_id)'
+	') ENGINE=InnoDB;'),
+	('CREATE TABLE IF NOT EXISTS rss_data ('
+	'link TEXT,'
+	'title TEXT,'
+	'summary TEXT,'
+	'updated DATETIME,'
+	'article TEXT'
 	') ENGINE=InnoDB;')]
 	
 for query in sql:
 	cursor.execute(query)
+	
 db.commit()
-
 cursor.close()
 db.close()
