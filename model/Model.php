@@ -26,7 +26,7 @@ class Model {
 		4 = database write error
 		*/ 
 		// If there are any required fields not filled out, send the user back to the form
-		$required = array('signup_username', 'signup_password', 'signup_email', 'signup_firstname', 'signup_lastname', 'signup_zip');
+		$required = array('signup_username', 'signup_password', 'signup_email', 'signup_firstname', 'signup_lastname');
 		foreach ($required as &$value) {
 			if ($user[$value] == '')
 				return 1;
@@ -37,8 +37,6 @@ class Model {
 		$usertype = $user['signup_usertype'];
 		$firstname = $user['signup_firstname'];
 		$lastname = $user['signup_lastname'];
-		$state = $user['signup_state'];
-		$zip = $user['signup_zip'];
 		
 		// Check for password length requirement
 		if (strlen($password) < 4)

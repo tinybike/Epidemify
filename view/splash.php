@@ -65,8 +65,16 @@ function selectLocation() {
 	<div id="leftbar">
 		<form action="index.php?page=network" method="post" class="form">
 		<table>
+		<tr><td>Location search</td></tr>
 		<tr>
 		<td><input id="origin" class="text_input" type="text" name="origin" size="15" required="required" placeholder="City or place name" /></td>
+		<td><input class="button" type="submit" value="Search" /></td>
+		</tr>
+		</table>
+		<table>
+		<tr><td>Disease search</td></tr>
+		<tr>
+		<td><input id="origin" class="text_input" type="text" name="origin" size="15" required="required" placeholder="Disease name" /></td>
 		<td><input class="button" type="submit" value="Search" /></td>
 		</tr>
 		</table>
