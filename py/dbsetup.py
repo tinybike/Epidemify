@@ -8,7 +8,7 @@ Basic setup queries for Epidemify MySQL backend.
 import MySQLdb
 
 db = MySQLdb.connect(host='localhost', user='epidemician', 
-					 passwd='funcrusherplus', db='Epidemify')
+					passwd='funcrusherplus', db='Epidemify')
 cur = db.cursor()
 cur.connection.autocommit(True)
 
@@ -59,6 +59,8 @@ sql = [
 		'name TEXT,'
 		'latitude DECIMAL(7,3),'
 		'longitude DECIMAL(7,3),'
+		'country_id INT(10) UNSIGNED,'
+		'region_id INT(10) UNSIGNED,'
 		'timezone VARCHAR(10),'
 		'code CHAR(4),'
 		'PRIMARY KEY(id)'

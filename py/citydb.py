@@ -10,7 +10,7 @@ import csv
 
 # Connect to MySQL database "Epidemify"
 db = MySQLdb.connect(host='localhost', user='epidemician',
-					 passwd='funcrusherplus', db='Epidemify')
+					passwd='funcrusherplus', db='Epidemify')
 cur = db.cursor()
 cur.connection.autocommit(True)
 
@@ -21,6 +21,8 @@ with open('/var/www/htdocs/Epidemify/data/cities.txt', 'rb') as csvfile:
 		if i == 0:
 			continue
 		sqldict = {
+			'country_id': row[1],
+			'region_id': row[2],
 			'name': db.escape_string(row[3]),
 			'latitude': row[4],
 			'longitude': row[5],
@@ -30,10 +32,10 @@ with open('/var/www/htdocs/Epidemify/data/cities.txt', 'rb') as csvfile:
 
 		sql = (
 			'INSERT INTO cities '
-			'(name, latitude, longitude, timezone, code) '
+			'(name, latitude, longitude, country_id, region_id, timezone, code) '
 		    'VALUES '
-			'("%(name)s", "%(latitude)s", "%(longitude)s", "%(timezone)s"'
-			', "%(code)s");' % sqldict
+			'("%(name)s", "%(latitude)s", "%(longitude)s", "%(country_id)s", '
+			'"%(region_id)s", "%(timezone)s", "%(code)s");' % sqldict
 		).replace('"NULL"', 'NULL')
 
 		cur.execute(sql)
