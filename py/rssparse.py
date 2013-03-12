@@ -302,9 +302,9 @@ def main():
 				signal.signal(signal.SIGALRM, handler)
 
 				# Define a 1.5 timeout fpr html retrieval
-				signal.alarm(120)
+				signal.alarm(10)
 
-				# Call timeout handler if hangs up
+				# Call timeout handler if mechanize is taking too long...
 				try:
 					html = br.open(e.link).read()
 				except Exception, exc: 
@@ -357,7 +357,7 @@ def main():
 
 # Register an handler for the timeout
 def handler(signum, frame):
-	print '***Timed out (120 sec)***'
+	print '***Timed out (10 sec)***'
 
 if __name__ == '__main__':
 	main()
