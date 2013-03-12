@@ -69,7 +69,8 @@ sql = [
 	(
 		'CREATE TABLE IF NOT EXISTS city_sick_counts ('
 		'city_id INT(10) UNSIGNED,'
-		'sick_words INT(10) UNSIGNED'
+		'sick_words INT(10) UNSIGNED,'
+		'written DATETIME'
 		') ENGINE=InnoDB;'
 	),
 ]

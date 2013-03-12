@@ -10,6 +10,8 @@ import MySQLdb
 import feedparser
 import nltk
 from mechanize import Browser
+import signal
+import time
 
 def main():
 	# RSS URL list
@@ -260,8 +262,16 @@ def main():
 		'User-Agent',
 		'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
 	)]
-
+	
 	fields = ['link', 'title', 'summary', 'updated_parsed']
+
+	# Register the signal function handler
+	signal.signal(signal.SIGALRM, handler)
+
+	# Define a 1.5 timeout fpr html retrieval
+	signal.alarm(120)
+
+	# Loop through RSS feed URLs and scrape html full text
 	print 'Parsing ' + str(N) + ' RSS feeds...'
 	for i, url in enumerate(urls):
 		print str(i) + ' (' + str(round(i/N*100**2)/100) + '%) ' + url
@@ -293,8 +303,17 @@ def main():
 					print ' -> ' + e.link[:65] + '...'
 				else:
 					print ' -> ' + e.link
-				html = br.open(e.link).read()
+				
+				# Call timeout handler if 
+				try:
+					html = br.open(e.link).read()
+				except Exception, exc: 
+					print exc
+
+				# Use nltk module to strip tags + JS from the raw html
 				sqldict['text'] = db.escape_string(nltk.clean_html(html))
+
+			# Quit prompt for keyboard interrupt exception
 			except KeyboardInterrupt:
 				quit_prompt = raw_input('Quit? [y/N]')
 				if quit_prompt == 'y' or quit_prompt == 'Y':
@@ -335,6 +354,10 @@ def main():
 	# Close database
 	cur.close()
 	db.close()
+
+# Register an handler for the timeout
+def handler(signum, frame):
+	print '***Timed out (120 sec)***'
 
 if __name__ == '__main__':
 	main()

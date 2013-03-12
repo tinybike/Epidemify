@@ -9,6 +9,7 @@ from __future__ import division
 import MySQLdb
 import re
 import sys
+import time
 
 def main():
 	# Set up topic-word association lists
@@ -45,7 +46,8 @@ def main():
 		'WHERE country_id = ' + str(country_id) + ' AND '
 		'(name = "Los Angeles" OR name = "San Francisco"'
 		'OR name = "Pensacola" OR name = "Albuquerque"'
-		'OR name = "New Orleans" OR name = "Kansas City");'
+		'OR name = "New Orleans" OR name = "Kansas City"'
+		'OR name = "Salt Lake City");'
 	)
 	cur.execute(sql)
 	print str(cur.rowcount) + ' cities found.'
@@ -72,33 +74,43 @@ def main():
 
 	# Find the occurrences of sick words and city names in each article
 	print 'Analyzing article text...'
+	pbar_width = 80
+	sys.stdout.write('[%s]' % (' ' * pbar_width))
+	sys.stdout.flush()
+	sys.stdout.write('\b' * (pbar_width + 1)) # return to start of line, after '['	
+	pbar_extend = int(len(article)/pbar_width) + 1
 	for i, a in enumerate(article):
-		# Visual progress indicator
-		sys.stdout.write('.')
-		if not i % 10:
-			print
-
 		# Clean up article text a little
-		text = a.replace('\t', '').replace('\n', '').replace('\r', '')
-		
-		# Search the article for city names
-		for city_id in city.keys():
-			city_pattern = r'\b%s\b' % re.escape(city[city_id]['name'].strip())
-			city_found = re.findall(city_pattern, text)
-			if city_found and city_found[0]:
+		if a:
+			text = a.replace('\t', '').replace('\n', '').replace('\r', '')					
+
+			# Search the article for city names
+			for city_id in city.keys():
+				city_pattern = r'\b%s\b' % re.escape(city[city_id]['name'].strip())
+				city_found = re.findall(city_pattern, text)
+
 				# Increment the sick word counts of any cities with their
 				# names found in the article
-				num_sick_words = len(re.findall(sick_channel, text.lower()))
-				if num_sick_words:
-					print city[city_id]['name'] + ': ' + str(num_sick_words)
-					city[city_id]['sick_words'] += num_sick_words
-		
+				if city_found and city_found[0]:
+					num_sick_words = len(re.findall(sick_channel, text.lower()))
+					if num_sick_words:
+						city[city_id]['sick_words'] += num_sick_words
+						
+		# Update visual progress indicator
+		if not i % pbar_extend:
+			sys.stdout.write('#')
+			sys.stdout.flush()
+			
+	sys.stdout.write('\n')
+	for city_id in city.keys():
+		if city[city_id]['sick_words']:
+			print city[city_id]['name'] + ': ' + str(city[city_id]['sick_words'])
 	
 	# Write results to database
 	print 'Writing results to database...'
 	for city_id in city.keys():
 		sql = (
-			'INSERT INTO city_sick_counts VALUES (%i, %i);' 
+			'INSERT INTO city_sick_counts VALUES (%i, %i, NOW());' 
 			% (city_id, city[city_id]['sick_words'])
 		)
 		cur.execute(sql)
