@@ -265,12 +265,6 @@ def main():
 	
 	fields = ['link', 'title', 'summary', 'updated_parsed']
 
-	# Register the signal function handler
-	signal.signal(signal.SIGALRM, handler)
-
-	# Define a 1.5 timeout fpr html retrieval
-	signal.alarm(120)
-
 	# Loop through RSS feed URLs and scrape html full text
 	print 'Parsing ' + str(N) + ' RSS feeds...'
 	for i, url in enumerate(urls):
@@ -304,7 +298,13 @@ def main():
 				else:
 					print ' -> ' + e.link
 				
-				# Call timeout handler if 
+				# Register the signal function handler
+				signal.signal(signal.SIGALRM, handler)
+
+				# Define a 1.5 timeout fpr html retrieval
+				signal.alarm(120)
+
+				# Call timeout handler if hangs up
 				try:
 					html = br.open(e.link).read()
 				except Exception, exc: 
