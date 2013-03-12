@@ -13,7 +13,13 @@ from mechanize import Browser
 import signal
 import time
 
-def main():
+def rss_downloader():
+	'''Parses the RSS feeds of several well-known news sites, then follows
+	the links contained in the feed using a mechanize browser.  The raw html
+	is then converted to (almost) bare text by stripping out the markup tags
+	and embedded JS code.  The RSS fields and the text are then written to a
+	MySQL database.	
+	'''
 	# RSS URL list
 	urls = [
 		'http://rss.cnn.com/rss/cnn_world.rss',
@@ -301,10 +307,10 @@ def main():
 				# Register the signal function handler
 				signal.signal(signal.SIGALRM, handler)
 
-				# Define a 1.5 timeout fpr html retrieval
+				# Define a 10-sec timeout fpr html retrieval
 				signal.alarm(10)
 
-				# Call timeout handler if mechanize is taking too long...
+				# Call timeout handler if mechanize is taking too long
 				try:
 					html = br.open(e.link).read()
 				except Exception, exc: 
@@ -360,4 +366,4 @@ def handler(signum, frame):
 	print '***Timed out (10 sec)***'
 
 if __name__ == '__main__':
-	main()
+	rss_downloader()

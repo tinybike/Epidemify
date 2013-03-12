@@ -11,8 +11,17 @@ import re
 import sys
 import time
 
-def main():
-	# Set up topic-word association lists
+def city_sick_counts():
+	'''Mines the full text of news articles for association with
+	a list of 'sick' words -- ailing, ill, diseased, etc. -- and
+	also for each of a table of cities.  My hypothesis is that
+	sick words in news articles is a reasonable indicator of
+	disease breakouts at cities whose names are also contained in
+	that article's text.  (Initial plausibility will be checked
+	against CDC data.)  The number of sick words per city is time-
+	stamped and saved in a MySQL database.
+	'''
+	# Set up sick-word association list
 	sick_words = [
 		'ailing', 'bedridden', 'debilitate', 'disease', 'fever', 
 		'feverish', 'hospitalize', 'ill', 'illness', 'incurable', 
@@ -30,27 +39,28 @@ def main():
 	# Get city names and grid coordinates from database
 	# For testing, limit to U.S. cities
 	search_city = 'Los Angeles'
-	print 'Fetching test country code for ' + search_city + '...'
+	print 'Fetching test country code for %s...' % search_city
 	sql = (
 		'SELECT DISTINCT country_id FROM cities '
-		'WHERE name = "' + search_city + '";'
+		'WHERE name = "%s";' % search_city
 	)
 	cur.execute(sql)
 	country_id = cur.fetchall()[0][0]
 	
 	# Need to get rid of small-pop cities with redundant names...
-	print 'Fetching all cities with country code ' + str(country_id) + '...'
+	print 'Fetching all cities with country code %i...' % country_id
 	city = {}
 	sql = (
-		'SELECT id, name FROM cities '
-		'WHERE country_id = ' + str(country_id) + ' AND '
-		'(name = "Los Angeles" OR name = "San Francisco"'
-		'OR name = "Pensacola" OR name = "Albuquerque"'
-		'OR name = "New Orleans" OR name = "Kansas City"'
-		'OR name = "Salt Lake City");'
+		'SELECT MAX(id), name FROM cities '
+		'WHERE country_id = %i GROUP BY name;'
+		% country_id
+		#'(name = "Los Angeles" OR name = "San Francisco"'
+		#'OR name = "Pensacola" OR name = "Albuquerque"'
+		#'OR name = "New Orleans" OR name = "Kansas City"'
+		#'OR name = "Salt Lake City");'
 	)
 	cur.execute(sql)
-	print str(cur.rowcount) + ' cities found.'
+	print '%i cities found.' % cur.rowcount
 	for row in cur.fetchall():
 		city[row[0]] = {'name': row[1], 'sick_words': 0}
 	
@@ -77,22 +87,24 @@ def main():
 	pbar_width = 80
 	sys.stdout.write('[%s]' % (' ' * pbar_width))
 	sys.stdout.flush()
-	sys.stdout.write('\b' * (pbar_width + 1)) # return to start of line, after '['	
+	sys.stdout.write('\b' * (pbar_width + 1))
 	pbar_extend = int(len(article)/pbar_width) + 1
 	for i, a in enumerate(article):
 		# Clean up article text a little
 		if a:
-			text = a.replace('\t', '').replace('\n', '').replace('\r', '')					
+			text = a.replace('\t', '').replace('\n', '').replace('\r', '')
 
 			# Search the article for city names
 			for city_id in city.keys():
-				city_pattern = r'\b%s\b' % re.escape(city[city_id]['name'].strip())
+				city_pattern = r'\b%s\b' % \
+					re.escape(city[city_id]['name'].strip())
 				city_found = re.findall(city_pattern, text)
 
 				# Increment the sick word counts of any cities with their
 				# names found in the article
 				if city_found and city_found[0]:
-					num_sick_words = len(re.findall(sick_channel, text.lower()))
+					num_sick_words = \
+						len(re.findall(sick_channel, text.lower()))
 					if num_sick_words:
 						city[city_id]['sick_words'] += num_sick_words
 						
@@ -104,7 +116,9 @@ def main():
 	sys.stdout.write('\n')
 	for city_id in city.keys():
 		if city[city_id]['sick_words']:
-			print city[city_id]['name'] + ': ' + str(city[city_id]['sick_words'])
+			print '%s: %i' % (
+				city[city_id]['name'], city[city_id]['sick_words']
+			)
 	
 	# Write results to database
 	print 'Writing results to database...'
@@ -121,4 +135,4 @@ def main():
 	print 'Done.'
 	
 if __name__ == '__main__':
-	main()
+	city_sick_counts()

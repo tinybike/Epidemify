@@ -8,7 +8,7 @@ City table setup from GeoWorldMap file.
 import MySQLdb
 import csv
 
-def main():
+def city_table_setup():
 	# Connect to MySQL database "Epidemify"
 	db = MySQLdb.connect(host='localhost', user='epidemician',
 						passwd='funcrusherplus', db='Epidemify')
@@ -44,10 +44,11 @@ def main():
 
 	# Create country ID index
 	cur.execute('CREATE INDEX country_index ON cities (country_id);')
+	cur.execute('CREATE INDEX name_index ON cities (name);')
 
 	# Close database
 	cur.close()
 	db.close()
 
 if __name__ == '__main__':
-	main()
+	city_table_setup()

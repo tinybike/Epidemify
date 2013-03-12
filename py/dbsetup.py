@@ -56,7 +56,7 @@ sql = [
 	(
 		'CREATE TABLE IF NOT EXISTS cities ('
 		'id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,'
-		'name TEXT,'
+		'name VARCHAR(100),'
 		'latitude DECIMAL(7,3),'
 		'longitude DECIMAL(7,3),'
 		'country_id INT(10) UNSIGNED,'
