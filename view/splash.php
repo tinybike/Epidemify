@@ -13,6 +13,7 @@
 <script>
 $(document).ready(function() {
 
+	// Drop-down boxes
 	$('#login-trigger').click(function() {
 		$(this).next('#login-content').toggle();
 		$(this).toggleClass('active');							
@@ -23,7 +24,18 @@ $(document).ready(function() {
 			$(this).find('span').html('&#x25BC;');
 		}
 	})
+	$('#how-trigger').click(function() {
+		$(this).next('#how-content').toggle();
+		$(this).toggleClass('active');							
+		if ($(this).hasClass('active')) {
+			$(this).find('span').html('&#x25B2;');
+		}
+		else {
+			$(this).find('span').html('&#x25BC;');
+		}
+	})
 
+	// Signup lightbox
 	$('#try-1').click(function(e) {
 		$('#sign_up').lightbox_me({
 			centered: true, 
@@ -34,6 +46,7 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	// Search query
 	$('#finder').submit(function() {
 		$.post('index.php?page=network', $(this).serialize(), function(response) {
 			$('#links').html(response);
@@ -62,7 +75,16 @@ function selectLocation() {
 	<?php create_navbar(); ?>
 	<div id="map"></div>
 	<script src="js/buildmap.js"></script>
-	<div id="leftbar">
+	<?php
+	foreach ($sick_map as $city) {
+		echo '
+		<script>
+		drawIconify(' . $city['latitude'] . ', ' . $city['longitude'] . ', "' . $city['name'] . '", ' . $city['sick_words'] . ');
+		</script>
+		';
+	}
+	?>
+	<!---<div id="leftbar">
 		<form action="index.php?page=network" method="post" class="form">
 		<table>
 		<tr><td>Location search</td></tr>
@@ -79,7 +101,7 @@ function selectLocation() {
 		</tr>
 		</table>
 		</form>
-	</div>
+	</div>--->
 	<div class="push"></div>
 </div>
 <div id="footer">&copy; 2013 Little Fox Innovations.  All rights reserved.</div>

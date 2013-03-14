@@ -116,6 +116,23 @@ class Model {
 		$_SESSION['loggedin'] = FALSE;
 		unset($_SESSION['username']);
 	}
+	
+	// Get sick-word associations from database
+	public function sick_map() {
+		include_once('model/dbfun.php');
+		$db = makeDBConnection();
+		$query = 'SELECT c.name, c.latitude, c.longitude, csc.sick_words 
+				FROM city_sick_counts csc 
+				LEFT JOIN cities c 
+				ON csc.city_id = c.id
+				WHERE csc.sick_words > 0;';
+		$result = mysqli_query($db, $query);
+		$sick_map = array();
+		while ($row = mysqli_fetch_array($result))
+			$sick_map[] = $row;
+		mysqli_close($db);
+		return $sick_map;
+	}
 		
 	// Social net stuff
 	public function getlinks() {

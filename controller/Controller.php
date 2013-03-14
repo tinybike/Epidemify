@@ -62,13 +62,10 @@ class Controller {
 					include 'view/profile.php';
 				}
 				break;
-
-			case 'help':
-				include 'view/help.php';
-				break;
-		
+	
 			// By default, show the splash screen
 			default:
+				$sick_map = $this->model->sick_map();
 				include 'view/splash.php';
 				break;
 		}

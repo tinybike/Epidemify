@@ -11,7 +11,7 @@ import re
 import sys
 import time
 
-def city_sick_counts():
+def rssminer():
 	'''Mines the full text of news articles for association with
 	a list of 'sick' words -- ailing, ill, diseased, etc. -- and
 	also for each of a table of cities.  My hypothesis is that
@@ -47,17 +47,19 @@ def city_sick_counts():
 	cur.execute(sql)
 	country_id = cur.fetchall()[0][0]
 	
-	# Need to get rid of small-pop cities with redundant names...
 	print 'Fetching all cities with country code %i...' % country_id
 	city = {}
 	sql = (
 		'SELECT MAX(id), name FROM cities '
-		'WHERE country_id = %i GROUP BY name;'
+		'WHERE country_id = %i GROUP BY name LIMIT 500 '
+		'UNION '
+		'SELECT id, name FROM cities '
+		'WHERE '
+		'(name = "Los Angeles" OR name = "San Francisco"'
+		'OR name = "Pensacola" OR name = "Albuquerque"'
+		'OR name = "New Orleans"'
+		'OR name = "Salt Lake City");'
 		% country_id
-		#'(name = "Los Angeles" OR name = "San Francisco"'
-		#'OR name = "Pensacola" OR name = "Albuquerque"'
-		#'OR name = "New Orleans" OR name = "Kansas City"'
-		#'OR name = "Salt Lake City");'
 	)
 	cur.execute(sql)
 	print '%i cities found.' % cur.rowcount
@@ -78,7 +80,6 @@ def city_sick_counts():
 	article = [row[1] for row in sql_results]
 
 	# Set up one big regex for sick words
-	print 'Setting up regex...'
 	sick_patterns = [r'\b%s\b' % re.escape(s.strip()) for s in sick_words]
 	sick_channel = re.compile('|'.join(sick_patterns))
 
@@ -135,4 +136,4 @@ def city_sick_counts():
 	print 'Done.'
 	
 if __name__ == '__main__':
-	city_sick_counts()
+	rssminer()

@@ -13,7 +13,7 @@ from mechanize import Browser
 import signal
 import time
 
-def rss_downloader():
+def rssparse():
 	'''Parses the RSS feeds of several well-known news sites, then follows
 	the links contained in the feed using a mechanize browser.  The raw html
 	is then converted to (almost) bare text by stripping out the markup tags
@@ -366,4 +366,4 @@ def handler(signum, frame):
 	print '***Timed out (10 sec)***'
 
 if __name__ == '__main__':
-	rss_downloader()
+	rssparse()
