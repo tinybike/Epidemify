@@ -658,7 +658,7 @@ input.medium_button {
 #map { 
 	max-width: none;
 	width: 100%;
-	height: 800px;
+	height: 750px;
 	position: relative;
 	margin:0 auto;
 	color: #000;

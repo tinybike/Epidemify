@@ -12,26 +12,8 @@ class Controller {
 	
 	public function invoke() {
 		switch ($this->page) {
-			// Create new account
-			case 'signup':
-				$signup = $this->model->signup($_POST);
-				include 'view/splash.php';
-				break;
-			
-			// Login to an existing account
-			case 'login':
-				$login = $this->model->login($_POST['login_username'], $_POST['login_password']);
-				include 'view/splash.php';
-				break;
-				
-			// Logout
-			case 'logout':
-				$this->model->logout();
-				include 'view/splash.php';
-				break;	
-
 			// Social network
-			case 'network':			
+			case 'network':
 				$subpage = (isset($_GET['sub'])) ? $_GET['sub'] : 'default';
 				switch ($subpage) {
 					// Search for new friends
@@ -62,10 +44,22 @@ class Controller {
 					include 'view/profile.php';
 				}
 				break;
+			
+			// Create new account
+			case 'signup':
+				$signup = $this->model->signup($_POST);
+			
+			// Login to an existing account
+			case 'login':
+				$login = $this->model->login($_POST['login_username'], $_POST['login_password']);
+				
+			// Logout
+			case 'logout':
+				$this->model->logout();
 	
 			// By default, show the splash screen
 			default:
-				$sick_map = $this->model->sick_map();
+				list($sick_map, $updated) = $this->model->sick_map();
 				include 'view/splash.php';
 				break;
 		}

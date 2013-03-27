@@ -77,6 +77,7 @@ function selectLocation() {
 	<script src="js/buildmap.js"></script>
 	<?php
 	foreach ($sick_map as $city) {
+		//echo $city['name'] . ' ' . $city['latitude'] . ' ' . $city['longitude'] . ' ' . $city['sick_words'] . '<br />';
 		echo '
 		<script>
 		drawIconify(' . $city['latitude'] . ', ' . $city['longitude'] . ', "' . $city['name'] . '", ' . $city['sick_words'] . ');
@@ -104,7 +105,7 @@ function selectLocation() {
 	</div>--->
 	<div class="push"></div>
 </div>
-<div id="footer">&copy; 2013 Little Fox Innovations.  All rights reserved.</div>
+<div id="footer">&copy; <?php echo $updated[0]; ?> Little Fox Innovations.  All rights reserved.</div>
 
 <!--- Sign-up lightbox --->
 <div id="sign_up">

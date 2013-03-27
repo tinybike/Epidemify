@@ -47,7 +47,7 @@ def rssminer():
 	cur.execute(sql)
 	country_id = cur.fetchall()[0][0]
 	
-	print 'Fetching all cities with country code %i...' % country_id
+	print 'Fetching cities with country code %i...' % country_id
 	city = {}
 	sql = (
 		'SELECT MAX(id), name FROM cities '

@@ -14,7 +14,8 @@ function create_navbar() {
 					<div id="how-content">
 						<small>
 						<p>Epidemify is a tool for estimating where people are sick.  We parse the article, searching for occurrences of words associated with sickness (ailing, sick, illness, etc.), as well as names of places (our test data set is several hundred U.S. cities).  We then simply count the number of times any "sick words" appear in articles which also contain a city name.  The association resulting from this is then displayed on the map.  Click on a sad face and the popup will show you how many sick words were found at that location!</p><br />
-						<p>This is a brand new tool, and we are still building our program -- this is just the most simple version!  Please come back regularly; there is plenty more to come.</p>
+						<p>This is a brand new tool, and we are still building our program -- this is just the most simple version!  Please come back regularly; there is plenty more to come.</p><br />
+						<p><i>Epidemify was last updated on ' . $updated[1] . '/' . $updated[2] . '/' . $updated[0] . '.  All articles used were at most 5 days old.</i></p>
 						</small>
 					</div>
 					</td>

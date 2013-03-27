@@ -2,16 +2,7 @@
 // Connect to MySQL DB
 function makeDBConnection() {
 	
-	if (!func_num_args()) {
-		$db_host = 'localhost';
-		#$db_user = 'thefuns1_epi';
-		$db_user = 'epidemician';
-		$db_pass = 'funcrusherplus';
-		#$db_name = 'thefuns1_Epidemify';
-		$db_name = 'Epidemify';
-	}
-	else
-		list($db_host, $db_user, $db_pass, $db_name) = func_get_args();
+	include 'db_params.php';
 
 	$connection = mysqli_connect($db_host, $db_user, $db_pass);
 	if (mysqli_connect_errno()) {

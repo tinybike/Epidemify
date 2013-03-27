@@ -120,18 +120,24 @@ class Model {
 	// Get sick-word associations from database
 	public function sick_map() {
 		include_once('model/dbfun.php');
+		include_once('model/datetime.php');
 		$db = makeDBConnection();
-		$query = 'SELECT c.name, c.latitude, c.longitude, csc.sick_words 
+		$query = 'SELECT c.name, c.latitude, c.longitude, csc.sick_words  
 				FROM city_sick_counts csc 
 				LEFT JOIN cities c 
 				ON csc.city_id = c.id
-				WHERE csc.sick_words > 0;';
+				WHERE csc.sick_words > 0
+				AND csc.written > DATE_SUB(NOW(), INTERVAL 5 DAY);';
 		$result = mysqli_query($db, $query);
 		$sick_map = array();
 		while ($row = mysqli_fetch_array($result))
 			$sick_map[] = $row;
+		$query = 'SELECT MAX(written) FROM city_sick_counts;';
+		$result = mysqli_fetch_array(mysqli_query($db, $query));
+		$updated = array();
+		$updated = processDateTime($result[0]);
 		mysqli_close($db);
-		return $sick_map;
+		return array($sick_map, $updated);
 	}
 		
 	// Social net stuff
