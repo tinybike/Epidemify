@@ -1,5 +1,5 @@
 <?php
-function create_navbar() {
+function create_navbar($updated) {
 	echo '
 	<div id="topbar">
 		<div id="nav">

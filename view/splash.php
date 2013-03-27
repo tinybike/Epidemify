@@ -72,7 +72,7 @@ function selectLocation() {
 
 <body>
 <div class="wrapper">
-	<?php create_navbar(); ?>
+	<?php create_navbar($updated); ?>
 	<div id="map"></div>
 	<script src="js/buildmap.js"></script>
 	<?php
