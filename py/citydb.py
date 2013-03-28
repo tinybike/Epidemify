@@ -9,14 +9,24 @@ import MySQLdb
 import csv
 
 def city_table_setup():
+	'''Set up MySQL table of city names, region, coordinates, etc. from flat
+	file.
+	'''
 	# Connect to MySQL database "Epidemify"
-	db = MySQLdb.connect(host='localhost', user='epidemician',
-						passwd='funcrusherplus', db='Epidemify')
+	with open('dbparams.csv', 'rb') as csvfile:
+		reader = csv.reader(csvfile, delimiter=',')
+		params = list(reader)[0]				
+	db = MySQLdb.connect(
+		host=params[0], 
+		user=params[1],
+		passwd=params[2], 
+		db=params[3]
+	)
 	cur = db.cursor()
 	cur.connection.autocommit(True)
 
 	# Get city names and grid coordinates from flat file (GeoWorldMap)
-	with open('/var/www/htdocs/Epidemify/data/cities.txt', 'rb') as csvfile:
+	with open('../data/cities.txt', 'rb') as csvfile:
 		reader = csv.reader(csvfile, delimiter=',')
 		for i, row in enumerate(reader):
 			if i == 0:

@@ -31,38 +31,48 @@ def rssminer():
 	]
 
 	# Connect to MySQL database "Epidemify"
-	db = MySQLdb.connect(host='localhost', user='epidemician',
-						passwd='funcrusherplus', db='Epidemify')
+	with open('dbparams.csv', 'rb') as csvfile:
+		reader = csv.reader(csvfile, delimiter=',')
+		params = list(reader)[0]				
+	db = MySQLdb.connect(
+		host=params[0], 
+		user=params[1],
+		passwd=params[2], 
+		db=params[3]
+	)
 	cur = db.cursor()
 	cur.connection.autocommit(True)
 
 	# Get city names and grid coordinates from database
 	# For testing, limit to U.S. cities
-	search_city = 'Los Angeles'
-	print 'Fetching test country code for %s...' % search_city
-	sql = (
-		'SELECT DISTINCT country_id FROM cities '
-		'WHERE name = "%s";' % search_city
-	)
-	cur.execute(sql)
-	country_id = cur.fetchall()[0][0]
+	#search_city = 'Los Angeles'
+	#print 'Fetching test country code for %s...' % search_city
+	#sql = (
+	#	'SELECT DISTINCT country_id FROM cities '
+	#	'WHERE name = "%s";' % search_city
+	#)
+	#cur.execute(sql)
+	#country_id = cur.fetchall()[0][0]
 	
-	print 'Fetching cities with country code %i...' % country_id
-	city = {}
-	sql = (
-		'SELECT MAX(id), name FROM cities '
-		'WHERE country_id = %i GROUP BY name LIMIT 500 '
-		'UNION '
-		'SELECT id, name FROM cities '
-		'WHERE '
-		'(name = "Los Angeles" OR name = "San Francisco"'
-		'OR name = "Pensacola" OR name = "Albuquerque"'
-		'OR name = "New Orleans"'
-		'OR name = "Salt Lake City");'
-		% country_id
-	)
-	cur.execute(sql)
-	print '%i cities found.' % cur.rowcount
+	#print 'Fetching cities with country code %i...' % country_id
+	#city = {}
+	#sql = (
+	#	'SELECT MAX(id), name FROM cities '
+	#	'WHERE country_id = %i GROUP BY name LIMIT 500 '
+	#	'UNION '
+	#	'SELECT id, name FROM cities '
+	#	'WHERE '
+	#	'(name = "Los Angeles" OR name = "San Francisco"'
+	#	'OR name = "Pensacola" OR name = "Albuquerque"'
+	#	'OR name = "New Orleans"'
+	#	'OR name = "Salt Lake City");'
+	#	% country_id
+	#)
+	#cur.execute(sql)
+	#print '%i cities found.' % cur.rowcount
+	
+	# Cities have too many duplicates + names that double as personal names;
+	# try using state names instead!
 	for row in cur.fetchall():
 		city[row[0]] = {'name': row[1], 'sick_words': 0}
 	

@@ -7,8 +7,16 @@ Basic setup queries for Epidemify MySQL backend.
 
 import MySQLdb
 
-db = MySQLdb.connect(host='localhost', user='epidemician', 
-					passwd='funcrusherplus', db='Epidemify')
+# Connect to MySQL database "Epidemify"
+with open('dbparams.csv', 'rb') as csvfile:
+	reader = csv.reader(csvfile, delimiter=',')
+	params = list(reader)[0]				
+db = MySQLdb.connect(
+	host=params[0], 
+	user=params[1],
+	passwd=params[2], 
+	db=params[3]
+)
 cur = db.cursor()
 cur.connection.autocommit(True)
 
@@ -69,6 +77,23 @@ sql = [
 	(
 		'CREATE TABLE IF NOT EXISTS city_sick_counts ('
 		'city_id INT(10) UNSIGNED,'
+		'sick_words INT(10) UNSIGNED,'
+		'written DATETIME'
+		') ENGINE=InnoDB;'
+	),
+	(
+		'CREATE TABLE IF NOT EXISTS states ('
+		'id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,'
+		'name VARCHAR(100),'
+		'latitude DECIMAL(7,3),'
+		'longitude DECIMAL(7,3),'
+		'region_id INT(10) UNSIGNED,'
+		'PRIMARY KEY(id)'
+		') ENGINE=InnoDB;'
+	),
+	(
+		'CREATE TABLE IF NOT EXISTS state_sick_counts ('
+		'state_id INT(10) UNSIGNED,'
 		'sick_words INT(10) UNSIGNED,'
 		'written DATETIME'
 		') ENGINE=InnoDB;'

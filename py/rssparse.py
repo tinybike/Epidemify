@@ -256,8 +256,15 @@ def rssparse():
 	N = len(urls)
 
 	# Connect to MySQL database "Epidemify"
-	db = MySQLdb.connect(host='localhost', user='epidemician',
-						passwd='funcrusherplus', db='Epidemify')
+	with open('dbparams.csv', 'rb') as csvfile:
+		reader = csv.reader(csvfile, delimiter=',')
+		params = list(reader)[0]				
+	db = MySQLdb.connect(
+		host=params[0], 
+		user=params[1],
+		passwd=params[2], 
+		db=params[3]
+	)
 	cur = db.cursor()
 	cur.connection.autocommit(True)
 
