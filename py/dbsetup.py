@@ -6,6 +6,7 @@ Basic setup queries for Epidemify MySQL backend.
 """
 
 import MySQLdb
+import csv
 
 # Connect to MySQL database "Epidemify"
 with open('dbparams.csv', 'rb') as csvfile:
@@ -87,7 +88,6 @@ sql = [
 		'name VARCHAR(100),'
 		'latitude DECIMAL(7,3),'
 		'longitude DECIMAL(7,3),'
-		'region_id INT(10) UNSIGNED,'
 		'PRIMARY KEY(id)'
 		') ENGINE=InnoDB;'
 	),

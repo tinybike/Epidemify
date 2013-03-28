@@ -10,6 +10,7 @@ import MySQLdb
 import re
 import sys
 import time
+import csv
 
 def rssminer():
 	'''Mines the full text of news articles for association with
@@ -73,6 +74,8 @@ def rssminer():
 	
 	# Cities have too many duplicates + names that double as personal names;
 	# try using state names instead!
+	city = {}
+	cur.execute('SELECT id, name FROM states;')
 	for row in cur.fetchall():
 		city[row[0]] = {'name': row[1], 'sick_words': 0}
 	

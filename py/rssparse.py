@@ -12,6 +12,7 @@ import nltk
 from mechanize import Browser
 import signal
 import time
+import csv
 
 def rssparse():
 	'''Parses the RSS feeds of several well-known news sites, then follows

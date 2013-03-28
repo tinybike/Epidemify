@@ -48,7 +48,7 @@ def city_table_setup():
 			cur.execute(sql)
 
 	# Create index
-	cur.execute('CREATE INDEX name_index ON cities (name);')
+	cur.execute('CREATE INDEX name_index ON states (name);')
 
 	# Close database
 	cur.close()
