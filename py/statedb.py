@@ -33,15 +33,16 @@ def city_table_setup():
 				continue
 			sqldict = {
 				'name': db.escape_string(row[0]),
-				'latitude': row[1],
-				'longitude': row[2],
+				'id': db.escape_string(row[1]),
+				'latitude': row[2],
+				'longitude': row[3],
 			}
 
 			sql = (
 				'INSERT INTO states '
-				'(name, latitude, longitude) '
+				'(id, name, latitude, longitude) '
 				'VALUES ('
-				'"%(name)s", "%(latitude)s", "%(longitude)s");' 
+				'"%(id)s", "%(name)s", "%(latitude)s", "%(longitude)s");' 
 				% sqldict
 			).replace('"NULL"', 'NULL')
 

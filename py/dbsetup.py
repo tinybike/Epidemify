@@ -84,7 +84,7 @@ sql = [
 	),
 	(
 		'CREATE TABLE IF NOT EXISTS states ('
-		'id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,'
+		'id CHAR(2),'
 		'name VARCHAR(100),'
 		'latitude DECIMAL(7,3),'
 		'longitude DECIMAL(7,3),'
@@ -93,7 +93,7 @@ sql = [
 	),
 	(
 		'CREATE TABLE IF NOT EXISTS state_sick_counts ('
-		'state_id INT(10) UNSIGNED,'
+		'state_id CHAR(2),'
 		'sick_words INT(10) UNSIGNED,'
 		'written DATETIME'
 		') ENGINE=InnoDB;'
