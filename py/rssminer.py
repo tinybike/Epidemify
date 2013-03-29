@@ -138,7 +138,7 @@ def rssminer():
 	print 'Writing results to database...'
 	for city_id in city.keys():
 		sql = (
-			'INSERT INTO city_sick_counts VALUES (%s, %i, NOW());' 
+			'INSERT INTO state_sick_counts VALUES ("%s", %i, NOW());' 
 			% (city_id, city[city_id]['sick_words'])
 		)
 		cur.execute(sql)
