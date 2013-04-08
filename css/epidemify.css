@@ -35,7 +35,7 @@ a {
 }
 
 /* Navigation bar */
-#topbar {
+/*#topbar {
 	margin-top: 0;
 	height: 25px;
 	color: #000;
@@ -130,6 +130,231 @@ nav #login-content {
 	-moz-border-radius: 3px 0 3px 3px;
 	-webkit-border-radius: 3px 0 3px 3px;
 	border-radius: 3px 0 3px 3px;
+}*/
+#topbar {
+	margin-top: 0;
+	height: 50px;
+	color: #000;
+	font-size: 11pt;
+	border-bottom: 1px solid #000;
+	background-color: white;
+	background-image: linear-gradient(bottom, #E0F2F7 16%, white 58%);
+    background-image: -o-linear-gradient(bottom, #E0F2F7 16%, white 58%);
+    background-image: -moz-linear-gradient(bottom, #E0F2F7 16%, white 58%);
+    background-image: -webkit-linear-gradient(bottom, #E0F2F7 16%, white 58%);
+    background-image: -ms-linear-gradient(bottom, #E0F2F7 16%, white 58%);
+    background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.16, #E0F2F7),
+	color-stop(0.58, white)
+    );
+	box-shadow: 0 0 6px 1px #fff;
+}
+#topbar a {
+	color: #000;
+/*	display: block;
+	width: 100%;
+	height: 100%;*/
+	text-decoration: none;
+}
+#topbar img {
+	vertical-align: bottom;
+}
+#nav {
+    text-align: left;
+    float: left;
+}
+/*#topbar .padding {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 7px;
+}*/
+#topbar .text_input {
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#login {
+    text-align: right;
+    float: right;
+	/*font-size: 11pt;*/
+}
+
+#header {
+    margin-top: 10px;
+    height: 40px;
+    font-size: 12pt;
+}
+#header .padding {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+#header .text_input {
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.tabs {
+	font-family: Helvetica, Arial, Sans-serif;
+	float: right;
+	margin-top: 0;
+	padding: 0;
+}
+.tabs_table table {
+	padding: 0;
+	margin-top: 0;
+	border-collapse: collapse;
+}
+.tabs_table td {
+	padding-top: 0;
+	margin-top: 0;
+	height: 50px;
+	overflow: hidden;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-left: 1px solid #777;
+	border-right: 1px solid #777;
+}
+.tabs_table td:hover {
+	background-color: #fff;
+}
+
+nav #login {
+  border-right: 1px solid #ddd;
+  -moz-box-shadow: 1px 0 0 #fff;
+  -webkit-box-shadow: 1px 0 0 #fff;
+  box-shadow: 1px 0 0 #fff;  
+}
+
+nav #login-trigger,
+nav #signup a {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  height: 25px;
+  line-height: 25px;
+  /*font-size: 11pt;*/
+  text-decoration: none;
+  color: #444;
+  text-shadow: 0 1px 0 #fff; 
+}
+
+nav #signup a {
+  -moz-border-radius: 0 3px 3px 0;
+  -webkit-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
+
+nav #login-trigger {
+  -moz-border-radius: 3px 0 0 3px;
+  -webkit-border-radius: 3px 0 0 3px;
+
+  border-radius: 3px 0 0 3px;
+}
+
+nav #login-trigger:hover,
+nav #login .active,
+nav #signup a:hover {
+  background: #fff;
+}
+
+nav #login-content {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 1px;
+  width: 250px;
+  z-index: 999;
+  background: #fff;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+  background-image: -webkit-linear-gradient(top, #fff, #eee);
+  background-image: -moz-linear-gradient(top, #fff, #eee);
+  background-image: -ms-linear-gradient(top, #fff, #eee);
+  background-image: -o-linear-gradient(top, #fff, #eee);
+  background-image: linear-gradient(top, #fff, #eee);  
+  padding: 15px;
+  -moz-box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);
+  -webkit-box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);
+  box-shadow: 0 2px 2px -1px rgba(0,0,0,.9);
+  -moz-border-radius: 3px 0 3px 3px;
+  -webkit-border-radius: 3px 0 3px 3px;
+
+  border-radius: 3px 0 3px 3px;
+}
+
+#inputs {
+	border: none;
+}
+
+#inputs input {
+  background: #f1f1f1;
+  padding: 6px 5px;
+  margin: 0 0 5px 0;
+  width: 225px;
+  border: 1px solid #ccc;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: 0 1px 1px #ccc inset;
+  -webkit-box-shadow: 0 1px 1px #ccc inset;
+  box-shadow: 0 1px 1px #ccc inset;
+}
+
+#inputs input:focus {
+  background-color: #fff;
+  border-color: #660000;
+  outline: none;
+  -moz-box-shadow: 0 0 0 1px #e8c291 inset;
+  -webkit-box-shadow: 0 0 0 1px #e8c291 inset;
+  box-shadow: 0 0 0 1px #e8c291 inset;
+}
+
+#actions {
+	border: none;
+}
+
+#login-content #actions {
+  margin: 0 0 0 0;
+}
+
+#login-content #submit {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  float: left;
+  height: 30px;
+  padding: 0;
+  width: 70px;
+  cursor: pointer;
+  font: 14px Arial, Helvetica;
+  color: #000;
+}
+
+#login-content #submit:active {
+  outline: none;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;		
+}
+
+#login-content #submit::-moz-focus-inner {
+  border: none;
+}
+
+#login-content label {
+  float: right;
+  line-height: 30px;
+  font-size: 11pt;
+}
+
+#login-content label input {
+  position: relative;
+  top: 2px;
+  right: 2px;
 }
 
 /* How this works */
@@ -159,7 +384,7 @@ nav #how .active {
 nav #how-content {
 	display: none;
 	position: absolute;
-	top: 25px;
+	top: 50px;
 	left: 50px;
 	width: 250px;
 	z-index: 999;
@@ -211,7 +436,6 @@ nav #how-content {
 	top: 2px;
 	right: 2px;
 }
-
 
 #inputs {
 	border: none;
@@ -488,7 +712,7 @@ input.medium_button {
 }
 
 #footer {
-	background-color: #f5f5f5;
+	background-color: #E0F2F7;
     text-align: center;
     font-size: 9pt;
     border-top: 1px solid #777;
@@ -657,8 +881,8 @@ input.medium_button {
 /* MAP CSS */
 #map { 
 	max-width: none;
-	width: 100%;
-	height: 750px;
+	width: 78%;
+	height: 700px;
 	position: relative;
 	margin:0 auto;
 	color: #000;
@@ -712,4 +936,3 @@ input.medium_button {
 #leftbar table {
 	line-height: 15px;
 }
-

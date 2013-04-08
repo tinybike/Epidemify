@@ -1,21 +1,6 @@
 <?php
 class Model {
 
-	protected function full_url() {
-		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
-		$sp = strtolower($_SERVER["SERVER_PROTOCOL"]);
-		$protocol = substr($sp, 0, strpos($sp, "/")) . $s;
-		return $protocol . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-	}
-
-	protected function base_url() {
-		$actual_link = $this->full_url();
-		$exploded_link = explode('?', $actual_link);
-		$exploded_link_and = explode('&', $actual_link);
-		$base_link = $exploded_link[0];
-		return $base_link;
-	}
-
 	public function signup($user) {
 		/*
 		Return values:
@@ -117,32 +102,64 @@ class Model {
 		unset($_SESSION['username']);
 	}
 	
-	// Get sick-word associations from database
+	/**
+	 * Fetch information needed to generate sickness map.
+	 */
 	public function sick_map() {
 		include_once('model/dbfun.php');
 		include_once('model/datetime.php');
 		$db = makeDBConnection();
-		/*$query = 'SELECT c.name, c.latitude, c.longitude, csc.sick_words  
-				FROM city_sick_counts csc 
-				LEFT JOIN cities c 
-				ON csc.city_id = c.id
-				WHERE csc.sick_words > 0
-				AND csc.written > DATE_SUB(NOW(), INTERVAL 5 DAY);';*/
-		$query = 'SELECT c.name, c.latitude, c.longitude, csc.sick_words 
-				FROM state_sick_counts csc 
-				LEFT JOIN states c
-				ON csc.state_id = c.id
-				WHERE csc.sick_words > 0
-				AND csc.written > DATE_SUB(NOW(), INTERVAL 5 DAY);';
-		$result = mysqli_query($db, $query);
-		$sick_map = array();
-		while ($row = mysqli_fetch_array($result))
-			$sick_map[] = $row;
-		$query = 'SELECT MAX(written) FROM state_sick_counts;';
-		$result = mysqli_fetch_array(mysqli_query($db, $query));
-		$updated = array();
-		$updated = processDateTime($result[0]);
+		$sick_map = $this->get_sick_counts($db);
+		$updated = $this->get_updated($db);
 		mysqli_close($db);
 		return array($sick_map, $updated);
 	}
+		
+	/**
+	 * Get count data most recently written to database.
+	 */
+	protected function get_updated($db) {
+		$sql = 'SELECT MAX(written) FROM state_sick_counts;';
+		$result = mysqli_fetch_array(mysqli_query($db, $sql));
+		$updated = array();
+		$updated = processDateTime($result[0]);
+		return $updated;
+	}
+	
+	/**
+	 * Get sick-word-to-place-name associations from database.
+	 */
+	protected function get_sick_counts($db) {
+		$sql = '
+			SELECT ssc0.state_id, s.name, s.latitude, s.longitude, ssc0.sick_words, s.pop_2010
+			FROM 
+			(
+				SELECT s1.*, p.pop_2010 FROM populations p
+				INNER JOIN
+				states s1 ON p.name = s1.name
+			) s
+			RIGHT JOIN
+			(
+				SELECT ssc.state_id, ssc.sick_words, smax.written 
+				FROM state_sick_counts ssc
+				INNER JOIN
+				(
+					SELECT state_id, MAX(written) AS written 
+					FROM state_sick_counts GROUP BY state_id
+				) smax
+				ON ssc.written = smax.written
+				WHERE ssc.state_id = smax.state_id
+			) ssc0
+			ON ssc0.state_id = s.id
+			WHERE ssc0.sick_words > 0
+			AND s.name IS NOT NULL
+			AND ssc0.written > DATE_SUB(NOW(), INTERVAL 30 DAY);
+		';
+		$result = mysqli_query($db, $sql);
+		$sick_map = array();
+		while ($row = mysqli_fetch_array($result))
+			$sick_map[] = $row;
+		return $sick_map;
+	}
+	
 }

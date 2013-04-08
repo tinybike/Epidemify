@@ -7,15 +7,15 @@ function create_navbar($updated) {
 			<div class="tabs_table">
 				<table>
 				<tr>
-					<td><a href="index.php">epidemify</a></td>
+					<td onclick="window.location = \'index.php\';" style=\'cursor: hand; cursor: pointer;\'><a href="index.php">EPIDEMIFY</a></td>
 					<div id="how">
 					<td>
-					<a id="how-trigger" href="#">how this works</a>
+					<a id="how-trigger" href="#">HOW THIS WORKS</a>
 					<div id="how-content">
 						<small>
 						<p>Epidemify is a tool for estimating where people are sick.  We parse the article, searching for occurrences of words associated with sickness (ailing, sick, illness, etc.), as well as names of places (our test data are the U.S. states and territories).  We then simply count the number of times any "sick words" appear in articles which also contain a place name.  The association resulting from this is then displayed on the map.  Click on a face and the popup will show you how many sick words were found at that location!</p><br />
 						<p>This is a brand new tool, and we are still building our program -- this is just the most simple version!  Please come back regularly; there is plenty more to come.</p><br />
-						<p><i>Epidemify was last updated on ' . $updated[1] . '/' . $updated[2] . '/' . $updated[0] . '.  All articles used were at most 5 days old.</i></p>
+						<p><i>Epidemify was last updated on ' . $updated[1] . '/' . $updated[2] . '/' . $updated[0] . '.  All articles used were at most 30 days old.</i></p>
 						</small>
 					</div>
 					</td>
@@ -51,7 +51,7 @@ function right_navbar() {
 			<div class="tabs">
 			<table>
 				<tr>
-				<td><a href="index.php?page=logout">log out</a></td>
+				<td><a href="index.php?page=logout">LOGOUT</a></td>
 				</tr>
 			</table>
 			</div>
@@ -66,10 +66,10 @@ function right_navbar() {
 					<div id="login">
 						<tr>
 						<td>
-							<a id="try-1" class="try" href="#">sign up</a>								
+							<a id="try-1" class="try" href="#">SIGN UP</a>								
 						</td>
 						<td>
-							<a id="login-trigger" href="#">log in</a>
+							<a id="login-trigger" href="#">LOGIN</a>
 							<div id="login-content">
 								<form action="index.php?page=login" method="post" class="form">
 									<fieldset id="inputs">

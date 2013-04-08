@@ -98,6 +98,14 @@ sql = [
 		'written DATETIME'
 		') ENGINE=InnoDB;'
 	),
+	(
+		'CREATE TABLE IF NOT EXISTS populations ('
+		'name VARCHAR(100),'
+		'region_id INT(10) UNSIGNED,'
+		'division_id INT(10) UNSIGNED,'
+		'pop_2010 INT(10) UNSIGNED'
+		') ENGINE=InnoDB;'
+	),
 ]
 	
 for query in sql:

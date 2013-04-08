@@ -3,12 +3,14 @@
 <html>
 <head>
 <title>Epidemify</title>
-<?php include 'view/headers.php'; ?>
+<?php include 'view/headers.html'; ?>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
 <script src="js/jquery.lightbox_me.js"></script>
 <script src="js/mapbox.js"></script>
 <script src="js/arc.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+<script src="js/heatmap.js"></script>
+<script src="js/heatmap-leaflet.js"></script>
 <script src="js/drawLocation.js"></script>
 <script>
 $(document).ready(function() {
@@ -48,7 +50,7 @@ $(document).ready(function() {
 
 	// Search query
 	$('#finder').submit(function() {
-		$.post('index.php?page=network', $(this).serialize(), function(response) {
+		$.post('index.php', $(this).serialize(), function(response) {
 			$('#links').html(response);
 		});
 		return false;
@@ -77,7 +79,6 @@ function selectLocation() {
 	<script src="js/buildmap.js"></script>
 	<?php
 	foreach ($sick_map as $city) {
-		//echo $city['name'] . ' ' . $city['latitude'] . ' ' . $city['longitude'] . ' ' . $city['sick_words'] . '<br />';
 		echo '
 		<script>
 		drawIconify(' . $city['latitude'] . ', ' . $city['longitude'] . ', "' . $city['name'] . '", ' . $city['sick_words'] . ');
@@ -85,8 +86,8 @@ function selectLocation() {
 		';
 	}
 	?>
-	<!---<div id="leftbar">
-		<form action="index.php?page=network" method="post" class="form">
+	<div id="leftbar">
+		<form action="index.php" method="post" class="form">
 		<table>
 		<tr><td>Location search</td></tr>
 		<tr>
@@ -102,10 +103,10 @@ function selectLocation() {
 		</tr>
 		</table>
 		</form>
-	</div>--->
+	</div>
 	<div class="push"></div>
 </div>
-<div id="footer">&copy; <?php echo $updated[0]; ?> Little Fox Innovations.  All rights reserved.</div>
+<div id="footer">&copy; <?php echo $updated[0]; ?> <a href="http://www.tinybike.net">Jack Peterson</a>.  All rights reserved.</div>
 
 <!--- Sign-up lightbox --->
 <div id="sign_up">
