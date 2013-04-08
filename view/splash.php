@@ -81,12 +81,12 @@ function selectLocation() {
 	foreach ($sick_map as $city) {
 		echo '
 		<script>
-		drawIconify(' . $city['latitude'] . ', ' . $city['longitude'] . ', "' . $city['name'] . '", ' . $city['sick_words'] . ');
+		drawIconify(' . $city['latitude'] . ', ' . $city['longitude'] . ', "' . $city['name'] . '", ' . $city['sick_words'] . ', ' . $city['pop_2010'] .');
 		</script>
 		';
 	}
 	?>
-	<div id="leftbar">
+	<!---<div id="leftbar">
 		<form action="index.php" method="post" class="form">
 		<table>
 		<tr><td>Location search</td></tr>
@@ -103,7 +103,7 @@ function selectLocation() {
 		</tr>
 		</table>
 		</form>
-	</div>
+	</div>--->
 	<div class="push"></div>
 </div>
 <div id="footer">&copy; <?php echo $updated[0]; ?> <a href="http://www.tinybike.net">Jack Peterson</a>.  All rights reserved.</div>

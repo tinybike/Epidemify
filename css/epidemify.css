@@ -715,7 +715,10 @@ input.medium_button {
 	background-color: #E0F2F7;
     text-align: center;
     font-size: 9pt;
+	width: 100%;
     border-top: 1px solid #777;
+	position: absolute;
+	bottom: 0;
 }
 #footer, .push {
 	height: 18px; /* .push must be the same height as .footer -2 (b/c of borders)*/
@@ -881,13 +884,11 @@ input.medium_button {
 /* MAP CSS */
 #map { 
 	max-width: none;
-	width: 78%;
-	height: 700px;
-	position: relative;
-	margin:0 auto;
+	width: 100%;
+	height: 91%;
+	margin: 0 auto -100px; /* the bottom margin is the negative value of the footer's height */
+	position: absolute;
 	color: #000;
-	float: right;
-	clear: right;
 }
 .marker-image {
     width:100px;

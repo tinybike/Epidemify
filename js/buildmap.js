@@ -8,7 +8,7 @@ var osm = new L.TileLayer(url, {maxZoom: 18});
 map.setView(new L.LatLng(43, -110), 4).addLayer(osm);
 L.control.scale().addTo(map);
 
-// Generate heatmap layer (requires heatmap.js and heatmap-leaflet.js)
+/*// Generate heatmap layer (requires heatmap.js and heatmap-leaflet.js)
 var heatmapLayer = L.TileLayer.heatMap({
 		radius: 20,
 		opacity: 0.8,
@@ -44,4 +44,4 @@ var map = new L.Map('heatmapArea', {
 controls.addTo(map);
  
 // Make heatmap accessible for debugging
-// layer = heatmapLayer;
+// layer = heatmapLayer;*/
