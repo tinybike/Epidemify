@@ -1,0 +1,32 @@
+Geobytes GeoWorldMap Shareware Licence Agreement
+Copyright © 2003 Geobytes Inc.  All rights reserved.
+
+This is a legal agreement between you, the "end user," and Geobytes Inc. (Geobytes). 
+
+By using, copying, transmitting, distributing or installing GeoWorldMap, you agree to all of the terms of this License.  If you do not agree to any of the terms of this License, then do not use, copy, transmit, distribute, or integrate GeoWorldMap.
+
+Ownership and Copyright
+
+Title, ownership rights and intellectual property rights in and to GeoWorldMap Database and all copies thereof shall remain in Geobytes. GeoWorldMap Database is copyrighted and protected by United States copyright laws and international treaty provisions. 
+
+You agree: 
+(a) not to remove any copyright notice and/or license agreements from GeoWorldMap Database; 
+(b) to reproduce all such notices on any copies made.
+
+Evaluation and Registration
+This is not free software. You are hereby licensed to use the GeoWorldMap Database for evaluation purposes without charge for a period of 30 days. If you use this software after the 30-day evaluation period, a registration fee of US$10.00 is required to be paid to Geobytes. Payments must be in US dollars and shall be made using Paypal.com.
+
+The email address to use for sending payment to Geobytes is PayPal@geobytes.com 
+
+No Warranty
+
+This software, and all accompanying files, data and materials, are distributed "AS IS" and with no warranties of any kind, whether express or implied. The user must assume the entire risk of using the data.
+
+Geobytes makes, and you receive, no warranties or conditions, express, implied, statutory, or otherwise, and Geobytes specifically disclaims any implied warranties of merchantability, noninfringement and fitness for a particular purpose. Geobytes does not warrant that the Software will meet your requirements or that the operation of the Software will be uninterrupted or error free. You assume the responsibility for the selection of your requirements, software, and hardware to achieve your intended results; for installation; for use; and that the operations of the Software will be uninterrupted or error free. 
+
+In no event shall Geobytes, or its principals, shareholders, officers, employees, affiliates, be liable for any incidental, consequential, or punitive damages whatsoever relating to the use of GeoWorldMap, or your relationship with Geobytes.
+
+Distribution
+
+You are hereby licensed to make as many copies of the Shareware version of this software and documentation as you wish, give exact copies of the original Shareware version to anyone, and distribute the Shareware version of the software and documentation in its unmodified form via electronic means. There is no charge for any of the above.
+

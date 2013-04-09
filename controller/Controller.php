@@ -12,39 +12,6 @@ class Controller {
 	
 	public function invoke() {
 		switch ($this->page) {
-			// Social network
-			case 'network':
-				$subpage = (isset($_GET['sub'])) ? $_GET['sub'] : 'default';
-				switch ($subpage) {
-					// Search for new friends
-					case 'search':
-						$findlinks = $this->model->findlinks($_POST['findlinks']);
-						include 'view/findlinks.php';
-						break;
-					// Make new friend
-					case 'add':
-						$addlink = $this->model->addlink($_SESSION['username'], $_POST['addlink']);
-						include 'view/addlink.php';
-						break;
-					// Fetch list of friends
-					default:
-						$links = $this->model->getlinks();
-						include 'view/network.php';
-				}
-				break;
-			
-			// Edit your profile
-			case 'profile':
-				if ($_POST['update_profile']) {
-					$update_profile = $this->model->update_profile();
-					include 'view/update_profile.php';
-				}
-				else {
-					$profile = $this->model->profile();
-					include 'view/profile.php';
-				}
-				break;
-			
 			// Create new account
 			case 'signup':
 				$signup = $this->model->signup($_POST);
