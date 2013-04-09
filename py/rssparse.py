@@ -280,9 +280,9 @@ def rssparse():
 	fields = ['link', 'title', 'summary', 'updated_parsed']
 
 	# Loop through RSS feed URLs and scrape html full text
-	print 'Parsing ' + str(N) + ' RSS feeds...'
+	print 'Parsing', N, 'RSS feeds...'
 	for i, url in enumerate(urls):
-		print str(i) + ' (' + str(round(i/N*100**2)/100) + '%) ' + url
+		print i, '(' + str(round(i/N*100**2)/100) + '%)', url
 		rss = feedparser.parse(url)
 		sqldict = {}
 		for e in rss.entries:
@@ -308,9 +308,9 @@ def rssparse():
 			# Follow link in link entry then extract text from html
 			try:
 				if len(e.link) > 65:
-					print ' -> ' + e.link[:65] + '...'
+					print ' ->', e.link[:65] + '...'
 				else:
-					print ' -> ' + e.link
+					print ' ->', e.link
 				
 				# Register the signal function handler
 				signal.signal(signal.SIGALRM, handler)
@@ -349,6 +349,13 @@ def rssparse():
 			).replace('"NULL"', 'NULL')
 			cur.execute(sql)
 	
+	# Remove data more than 30 days old
+	print 'Removing old data...'
+	cur.execute(
+		'DELETE FROM rss_data WHERE updated < DATE_SUB(NOW(), INTERVAL 30 DAY);'
+	)
+	print cur.rowcount, 'rows removed.'
+	
 	# Delete duplicate links
 	print 'Removing duplicate links...'
 	cur.execute(
@@ -362,7 +369,7 @@ def rssparse():
 		'WHERE r2.link = r.link AND r2.updated > r.updated);'
 	)
 	cur.execute('DELETE FROM rss_data WHERE id IN (SELECT id FROM rss_temp);')
-	print str(cur.rowcount) + ' duplicates removed.'
+	print cur.rowcount, 'duplicates removed.'
 	cur.execute('DROP TABLE rss_temp;')
 
 	# Close database
