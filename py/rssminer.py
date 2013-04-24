@@ -81,10 +81,20 @@ def rssminer():
 	
 	# Fetch all RSS-linked articles from database which were updated
 	# within the last 5 days
-	print 'Fetching all articles updated in the last 5 days...'
+	print 'Fetching all articles updated in the last 30 days...'
+	#sql = (
+	#	'SELECT title, article FROM rss_data '
+	#	'WHERE updated > DATE_SUB(NOW(), INTERVAL 30 DAY);'
+	#)
+	#sql = (
+	#	'SELECT r.title, r.article FROM rss_data r '
+	#	'WHERE r.updated = ('
+	#	'	SELECT MAX(updated) FROM rss_data '
+	#	'	WHERE title = r.title'
+	#	') GROUP BY r.title;'
+	#)
 	sql = (
-		'SELECT title, article FROM rss_data '
-		'WHERE updated > DATE_SUB(NOW(), INTERVAL 5 DAY);'
+		'SELECT title, article FROM rss_data GROUP BY title;'
 	)
 	cur.execute(sql)
 	num_articles = cur.rowcount

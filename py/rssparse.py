@@ -357,20 +357,20 @@ def rssparse():
 	print cur.rowcount, 'rows removed.'
 	
 	# Delete duplicate links
-	print 'Removing duplicate links...'
-	cur.execute(
-		'CREATE TEMPORARY TABLE IF NOT EXISTS rss_temp (id INT UNSIGNED);'
-	)
-	cur.execute('DELETE FROM rss_temp;')
-	cur.execute(
-		'INSERT rss_temp (id) '
-		'SELECT id FROM rss_data r WHERE EXISTS ('
-		'SELECT * FROM rss_data r2 '
-		'WHERE r2.link = r.link AND r2.updated > r.updated);'
-	)
-	cur.execute('DELETE FROM rss_data WHERE id IN (SELECT id FROM rss_temp);')
-	print cur.rowcount, 'duplicates removed.'
-	cur.execute('DROP TABLE rss_temp;')
+	#print 'Removing duplicate links...'
+	#cur.execute(
+	#	'CREATE TEMPORARY TABLE IF NOT EXISTS rss_temp (id INT UNSIGNED);'
+	#)
+	#cur.execute('DELETE FROM rss_temp;')
+	#cur.execute(
+	#	'INSERT rss_temp (id) '
+	#	'SELECT id FROM rss_data r WHERE EXISTS ('
+	#	'SELECT * FROM rss_data r2 '
+	#	'WHERE r2.link = r.link AND r2.updated > r.updated);'
+	#)
+	#cur.execute('DELETE FROM rss_data WHERE id IN (SELECT id FROM rss_temp);')
+	#print cur.rowcount, 'duplicates removed.'
+	#cur.execute('DROP TABLE rss_temp;')
 
 	# Close database
 	cur.close()
