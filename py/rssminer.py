@@ -11,6 +11,7 @@ import re
 import sys
 import time
 import csv
+import os
 
 def rssminer():
 	'''Mines the full text of news articles for association with
@@ -32,7 +33,8 @@ def rssminer():
 	]
 
 	# Connect to MySQL database "Epidemify"
-	with open('dbparams.csv', 'rb') as csvfile:
+	scriptpath = os.path.dirname(os.path.realpath(__file__))
+	with open(scriptpath + '/dbparams.csv', 'rb') as csvfile:
 		reader = csv.reader(csvfile, delimiter=',')
 		params = list(reader)[0]				
 	db = MySQLdb.connect(

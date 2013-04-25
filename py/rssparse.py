@@ -13,6 +13,7 @@ from mechanize import Browser
 import signal
 import time
 import csv
+import os
 
 def rssparse():
 	'''Parses the RSS feeds of several well-known news sites, then follows
@@ -257,7 +258,8 @@ def rssparse():
 	N = len(urls)
 
 	# Connect to MySQL database "Epidemify"
-	with open('dbparams.csv', 'rb') as csvfile:
+	scriptpath = os.path.dirname(os.path.realpath(__file__))
+	with open(scriptpath + '/dbparams.csv', 'rb') as csvfile:
 		reader = csv.reader(csvfile, delimiter=',')
 		params = list(reader)[0]				
 	db = MySQLdb.connect(
